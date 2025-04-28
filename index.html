@@ -12,15 +12,25 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
   <script src="https://js.arcgis.com/4.26/"></script>
 
+  <!-- styling the map div -->
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
 </head>
 <body>
 
   <!-- container for the map -->
-  <div id="viewDiv" style="height:100vh; width:100vw;"></div>
+  <div id="viewDiv"></div>
 
   <!-- loading the modules -->
   <script>
-    require(["esri/config", "esri/Map", "esri/views/MapView"], function(esriConfig, Map, MapView) {
+    require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Locate"], function(esriConfig, Map, MapView, Locate) {
 
       // adding API key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurNAUgv3aeRUmzJ4ckMevLQLfVJhdc-z1-a5rmBvbZM6HiAtWhTkHR1uPqL3lwJdP49LWHB6rjySi-OGZeNP1ea6oiztHSf22dFyO6r4o94L1an9zLTOBsN3vlqSz7k8MyUO9e1udJ3zNViSQ518xOFVwCnGBfyh40rSb4E2X3zsumGVzsUowRjXGPUi8Odwr1Y9iVZinjPQa-7TSBIuR8E4.AT1_EtHHMprs";
@@ -36,6 +46,16 @@
         map: map,             // References the map object
         center: [-81.4109, 30.3918], // Set center to Mayport NAS
         zoom: 12                    // Set initial zoom level
+      });
+
+      // create locate widget
+      const locateBtn = new Locate({
+        view: view
+      });
+
+      // add locate widget to view
+      view.ui.add(locateBtn, {
+        position: "top-left"
       });
 
     });
