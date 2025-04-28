@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- meta for the browser to allow for mobile first design -->
   <meta charset="utf-8" />
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Data Collector for AGOL</title>
 
-  <!-- Adding the css for the survey button -->
+  <!--Adding the css for the survey button-->
   <style>
     html, body, #viewDiv {
       padding: 0;
@@ -18,7 +17,7 @@
     .addRecordBtn {
       position: absolute;
       z-index: 10;
-      top: 10px;
+      top: 60px; /* moved down to avoid search bar */
       right: 10px;
       background-color: #0079c1;
       color: white;
@@ -36,71 +35,68 @@
   </style>
 
   <!-- importing the css and libraries for esri.js -->
-  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.26/"></script>
-
-</head>
-<body>
-
-  <!-- Add Record button linking to Survey123 -->
-  <a href="https://arcg.is/f8XLb" target="_blank" class="addRecordBtn">Add Record</a>
-
-  <!-- div that will hold the map -->
-  <div id="viewDiv"></div>
 
   <!-- loading the modules -->
   <script>
     require([
-      "esri/config", 
-      "esri/Map", 
-      "esri/views/MapView", 
+      "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
       "esri/widgets/Locate",
       "esri/widgets/Search",
       "esri/layers/FeatureLayer"
     ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer) => {
 
-      // adding in API Key
+      //adding in API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurNAUgv3aeRUmzJ4ckMevLQLfVJhdc-z1-a5rmBvbZM6HiAtWhTkHR1uPqL3lwJdP49LWHB6rjySi-OGZeNP1ea6oiztHSf22dFyO6r4o94L1an9zLTOBsN3vlqSz7k8MyUO9e1udJ3zNViSQ518xOFVwCnGBfyh40rSb4E2X3zsumGVzsUowRjXGPUi8Odwr1Y9iVZinjPQa-7TSBIuR8E4.AT1_EtHHMprs";
 
-      // create the map
+      // creating the map
       const map = new Map({
         basemap: "satellite"
       });
 
-      // create the view
+      // creating the view
       const view = new MapView({
-        container: "viewDiv", // Reference to the DOM node
-        map: map,             // References the map object
-        center: [-81.398, 30.391], // Centered on NAS Jacksonville
+        container: "viewDiv", // Reference to the DOM node that will contain the view
+        map: map, // References the map object
+        center: [-81.3927, 30.3898], // Mayport NAS center (longitude, latitude)
         zoom: 13
       });
 
-      // create the locate button
+      // adding the locate button
       const locateBtn = new Locate({
         view: view
       });
+
       view.ui.add(locateBtn, {
         position: "top-left"
       });
 
-      // create the search widget
+      // adding the search widget
       const searchWidget = new Search({
         view: view
       });
+
       view.ui.add(searchWidget, {
-        position: "top-right"
+        position: "top-right",
+        index: 0
       });
 
-      // create the survey feature layer
+      // adding feature layer (survey results)
       const layer = new FeatureLayer({
         url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_9406bd5bb2644706ac8a051c5f0023aa_results/FeatureServer"
       });
 
-      // add the feature layer to the map
-      map.add(layer);
+      map.add(layer); // adding layer to the map
 
     });
   </script>
+</head>
 
+<body>
+  <a href="https://arcg.is/f8XLb" target="_blank" class="addRecordBtn">Add Record</a>
+  <div id="viewDiv"></div>
 </body>
 </html>
