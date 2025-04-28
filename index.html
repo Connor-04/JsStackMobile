@@ -27,38 +27,53 @@
       "esri/Map", 
       "esri/views/MapView", 
       "esri/widgets/Locate", 
-      "esri/widgets/Search"
-    ], (esriConfig, Map, MapView, Locate, Search) => {
+      "esri/widgets/Search", 
+      "esri/layers/FeatureLayer"
+    ], (esriConfig, Map, MapView, Locate, Search, FeatureLayer) => {
 
       // adding in API Key
       esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurNAUgv3aeRUmzJ4ckMevLQLfVJhdc-z1-a5rmBvbZM6HiAtWhTkHR1uPqL3lwJdP49LWHB6rjySi-OGZeNP1ea6oiztHSf22dFyO6r4o94L1an9zLTOBsN3vlqSz7k8MyUO9e1udJ3zNViSQ518xOFVwCnGBfyh40rSb4E2X3zsumGVzsUowRjXGPUi8Odwr1Y9iVZinjPQa-7TSBIuR8E4.AT1_EtHHMprs";
 
+      // create the map
       const map = new Map({
         basemap: "satellite"
       });
 
+      // create the view
       const view = new MapView({
         container: "viewDiv", // Reference to the DOM node that will contain the view
-        map: map, // References the map object
-        center: [-81.4265, 30.3920], // Mayport Naval Air Station coordinates [longitude, latitude]
+        map: map,             // References the map object
+        center: [-81.4265, 30.3920], // Mayport NAS
         zoom: 13
       });
 
+      // create locate widget
       const locateBtn = new Locate({
         view: view
       });
 
+      // add locate widget to view
       view.ui.add(locateBtn, {
         position: "top-left"
       });
 
+      // create search widget
       const searchWidget = new Search({
         view: view
       });
 
+      // add search widget to view
       view.ui.add(searchWidget, {
         position: "top-right"
       });
+
+      // create feature layer
+      const surveyLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_9406bd5bb2644706ac8a051c5f0023aa_results/FeatureServer"
+      });
+
+      // add feature layer to map
+      map.add(surveyLayer);
 
     });
   </script>
